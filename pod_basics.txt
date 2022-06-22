@@ -1,0 +1,70 @@
+kind: Pod                              
+apiVersion: v1                     
+metadata:                           
+  name: testpod                  
+spec:                                    
+  containers:                      
+    - name: c00                     
+      image: ubuntu              
+      command: ["/bin/bash", "-c", "while true; do echo Hello-amiya; sleep 5 ; done"]
+  restartPolicy: Never         # Defaults to Always
+
+
+
+
+
+
+kind: Pod                              
+apiVersion: v1                     
+metadata:                           
+  name: testpod
+  annotations: 	
+      description: learning pod                 
+spec:                                    
+  containers:                      
+    - name: c00                     
+      image: ubuntu              
+      command: ["/bin/bash", "-c", "while true; do echo Hello-amiya; sleep 5 ; done"]
+  restartPolicy: Never         # Defaults to Always
+
+Multi container pod
+kind: Pod
+apiVersion: v1
+metadata:
+  name: testpod3
+spec:
+  containers:
+    - name: c00
+      image: ubuntu
+      command: ["/bin/bash", "-c", "while true; do echo Welcome to k8s; sleep 5 ; done"]
+    - name: c01
+      image: ubuntu
+      command: ["/bin/bash", "-c", "while true; do echo Welcome to docker; sleep 5 ; done"]
+
+Environment variable:
+POD ENVIRONMENT VARIABLES
+kind: Pod
+apiVersion: v1
+metadata:
+  name: environments
+spec:
+  containers:
+    - name: c00
+      image: ubuntu
+      command: ["/bin/bash", "-c", "while true; do echo Hello-AMIYA; sleep 5 ; done"]
+      env:                        # List of environment variables to be used inside the pod
+      - name: MYNAME
+        value: AMIYA
+
+
+POD WITH PORTS
+kind: Pod
+apiVersion: v1
+metadata:
+  name: testpod4
+spec:
+  containers:
+    - name: c00
+      image: httpd
+      ports:
+       - containerPort: 80
