@@ -68,3 +68,18 @@ spec:
       image: httpd
       ports:
        - containerPort: 80
+       
+Pod with label:
+kind: Pod
+apiVersion: v1
+metadata:
+  name: testpod
+  labels:                                                   
+    env: development
+    class: pods
+spec:
+    containers:
+       - name: c00
+         image: ubuntu
+         command: ["/bin/bash", "-c", "while true; do echo Hello-amiya; sleep 5 ; done"]
+
