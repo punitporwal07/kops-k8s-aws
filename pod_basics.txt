@@ -99,3 +99,39 @@ spec:
     nodeSelector:                                         
        hardware: t2-micro
 
+nodename example
+---------------- 
+kind: Pod
+apiVersion: v1
+metadata:
+  name: nodelabels
+  labels:
+    env: development
+spec:
+    containers:
+       - name: c00
+         image: ubuntu
+         command: ["/bin/bash", "-c", "while true; do echo welcome to k8s; sleep 5 ; done"]
+    nodeName: controlplane
+	
+
+ReplicationController
+---------------------
+kind: ReplicationController               
+apiVersion: v1
+metadata:
+  name: myreplica
+spec:
+  replicas: 2            
+  selector:        
+    myname: amiya                             
+  template:                
+    metadata:
+      name: testpod
+      labels:            
+        myname: amiya
+    spec:
+     containers:
+       - name: c00
+         image: ubuntu
+         command: ["/bin/bash", "-c", "while true; do echo welcome to k8s ; sleep 5 ; done"]
