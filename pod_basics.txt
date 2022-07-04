@@ -113,7 +113,46 @@ spec:
          image: ubuntu
          command: ["/bin/bash", "-c", "while true; do echo welcome to k8s; sleep 5 ; done"]
     nodeName: controlplane
-	
+
+Node affinity
+----------------
+
+requiredDuringSchedulingIgnoredDuringExecution
+----------------------------------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - { key: disktype , operator: In , values: [ ssd ] }            
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+
+preferredDuringSchedulingIgnoredDuringExecution
+-----------------------------------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+           - { key: disktype ,  operator: In ,  values: [ ssd ] }          
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
 
 ReplicationController
 ---------------------
