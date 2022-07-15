@@ -289,4 +289,105 @@ spec:
         image: nginx:1.14.2
         ports:
         - containerPort: 80
+Deployment Strategy:
+--------------------
+Recreate:
+----------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 10
+  strategy:
+   type: Recreate
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.22
+        ports:
+        - containerPort: 80
+
+Rolling Upate
+-------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 10
+  strategy:
+   type: RollingUpdate
+   rollingUpdate:
+    maxSurge: 2        # how many pods we can add at a time
+    maxUnavailable: 0 # how many pods can be unavailable during the rolling update
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.22
+        ports:
+        - containerPort: 80
+
+Canary (main)
+-------
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: depl
+spec:
+   replicas: 4
+   selector:     
+    matchLabels:
+     name: k8s
+   template:
+     metadata:
+       name: testpod
+       labels:
+         name: k8s
+         track: stable
+     spec:
+      containers:
+        - name: c00
+          image: centos
+          command: ["/bin/bash", "-c", "while true; do echo welcome to k8s-stable; sleep 5; done"]
+Canary (canary)
+---------------
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: depl-canary
+spec:
+   replicas: 1
+   selector:     
+    matchLabels:
+     name: k8s
+   template:
+     metadata:
+       name: testpod
+       labels:
+         name: k8s
+         track: canary
+     spec:
+      containers:
+        - name: c00
+          image: ubuntu
+          command: ["/bin/bash", "-c", "while true; do echo welcome to k8s-canary; sleep 5; done"]
 
