@@ -13,3 +13,31 @@ spec:
       image: httpd
       ports:
        - containerPort: 80
+
+pod ~ pod communication
+-----------------------
+pod1
+----
+kind: Pod
+apiVersion: v1
+metadata:
+  name: testpod1
+spec:
+  containers:
+    - name: c01
+      image: nginx
+      ports:
+		- containerPort: 80
+
+pod2
+----
+kind: Pod
+apiVersion: v1
+metadata:
+  name: testpod2
+spec:
+  containers:
+    - name: c02
+      image: httpd
+      ports:
+		- containerPort: 80
