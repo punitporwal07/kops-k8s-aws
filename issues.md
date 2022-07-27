@@ -28,13 +28,7 @@ c. Update your cluster
 ```
 kops update cluster --yes
 ```
-Rolling changes to stop the cluster
-
-```
-kops rolling-update cluster --yes
-```
-
-Rolling changes to start the cluster
+Rolling changes to update the cluster
 
 ```
 kops rolling-update cluster --cloudonly --force --yes
